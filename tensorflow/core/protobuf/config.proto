@@ -178,6 +178,16 @@ message RPCOptions {
   // transport for client-master communication that avoids the RPC
   // stack. This option is primarily for used testing the RPC stack.
   bool use_rpc_for_inprocess_master = 1;
+  bool ex_grpc_compression = 2;
+       /*
+       enum ExCompressionAlgorithm {
+               EX_GRPC_COMPRESS_IDENTITY = 0;
+               EX_GRPC_COMPRESS_DEFLATE = 1;
+               EX_GRPC_COMPRESS_GZIP = 2;
+  }
+       //optional ExCompressionAlgorithm compress = 2 [default = EX_GRPC_COMPRESS_IDENTITY];
+       ExCompressionAlgorithm compress = 2;
+       */  
 };
 
 // Session configuration parameters.

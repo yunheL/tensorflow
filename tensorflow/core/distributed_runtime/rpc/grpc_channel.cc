@@ -56,7 +56,8 @@ Status ValidateHostPortPair(const string& host_port) {
 }  // namespace
 
 Status NewHostPortGrpcChannel(const string& target,
-                              SharedGrpcChannelPtr* channel_pointer) {
+                              SharedGrpcChannelPtr* channel_pointer,
+                              bool ex_grpc_compression) {
   // Minimally ensure that the target is valid
   TF_RETURN_IF_ERROR(ValidateHostPortPair(target));
 
@@ -66,6 +67,9 @@ Status NewHostPortGrpcChannel(const string& target,
   // NOTE(mrry): Some versions of gRPC use a 20-second minimum backoff
   // on connection failure, which makes our tests time out.
   args.SetInt("grpc.testing.fixed_reconnect_backoff_ms", 1000);
+  if (ex_grpc_compression) {
+    args.SetCompressionAlgorithm(GRPC_COMPRESS_GZIP);
+  }
   *channel_pointer = ::grpc::CreateCustomChannel(
       target, ::grpc::InsecureChannelCredentials(), args);
   return Status::OK();

@@ -89,7 +89,8 @@ ChannelCreationFunction ConvertToChannelCreationFunction(
         new_channel_func_ptr);
 
 Status NewHostPortGrpcChannel(const string& target,
-                              SharedGrpcChannelPtr* channel_pointer);
+                              SharedGrpcChannelPtr* channel_pointer,
+                              bool ex_grpc_compression);
 
 }  // namespace tensorflow
 

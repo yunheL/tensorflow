@@ -178,6 +178,9 @@ Status GrpcServer::Init(
   builder.AddListeningPort(strings::StrCat("0.0.0.0:", requested_port),
                            GetServerCredentials(server_def_), &bound_port_);
   builder.SetMaxMessageSize(std::numeric_limits<int32>::max());
+  if (sess_opts.config.rpc_options().ex_grpc_compression()) {
+    builder.SetDefaultCompressionAlgorithm(GRPC_COMPRESS_DEFLATE);
+  }
   builder.SetOption(
       std::unique_ptr<::grpc::ServerBuilderOption>(new NoReusePortOption));
   master_impl_ = CreateMaster(&master_env_);
@@ -372,7 +375,9 @@ std::shared_ptr<::grpc::ServerCredentials> GrpcServer::GetServerCredentials(
 ChannelCreationFunction GrpcServer::GetChannelCreationFunction() const {
   // We can do this because SparseGrpcChannelCache is robust to nullptr being
   // returned by the channel creation function
-  return ConvertToChannelCreationFunction(NewHostPortGrpcChannel);
+  //return ConvertToChannelCreationFunction(NewHostPortGrpcChannel);
+  bool ex_grpc_compression = server_def_.default_session_config().rpc_options().ex_grpc_compression();
+  return ConvertToChannelCreationFunction(std::bind(NewHostPortGrpcChannel, std::placeholders::_1, std::placeholders::_2, ex_grpc_compression));
 }
 
 std::unique_ptr<Master> GrpcServer::CreateMaster(MasterEnv* master_env) {
