@@ -1,13 +1,13 @@
-#COMPRESS-TENSORFLOW
+# COMPRESS-TENSORFLOW
 
-##Overview  
+## Overview  
 Compress-tensorflow added interface for easy compressing training messages using Gzip/deflate.
 
-##Compile
+## Compile
 1. Clone code to your local repository.  
 2. Please follow the **build from source instructions** from [tensorflow documentation](https://www.tensorflow.org/install/install_sources). 
 
-##Usage
+## Usage
 1. **Import config_pb2 in your code.** Protobuf is used to serializing data for tensorflow communication.  
 Add this line to the beginning of your training python file to import:
 
@@ -73,7 +73,7 @@ Add this line to the beginning of your training python file to import:
 	python *FILENAME* --compression_on=True
 	```
 	
-##Contact
+## Contact
 Please contact Xiangjin <xwu@cs.wisc.edu>, Yunhe <liu348@wisc.edu> if you have any questions or concerns. Thank you!
 
 
